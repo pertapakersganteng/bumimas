@@ -148,7 +148,8 @@
       padding: 2rem 1.5rem; text-align: center; transition: border-color 0.3s, box-shadow 0.3s;
     }
     .reach-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(27,42,74,0.06); }
-    .reach-flag { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .reach-flag { margin-bottom: 0.75rem; }
+    .reach-flag img { width: 56px; height: auto; border-radius: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.12); }
     .reach-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
     .reach-card p { font-size: 0.8rem; color: var(--gray); }
 
@@ -188,7 +189,7 @@
 
     /* KONTAK */
     .contact { background: var(--off-white); }
-    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.5rem; }
+    .contact-grid { max-width: 520px; margin: 2.5rem auto 0; }
     .contact-info-item { display: flex; gap: 1rem; margin-bottom: 1.75rem; }
     .contact-icon {
       flex-shrink: 0; width: 44px; height: 44px; background: var(--navy); color: var(--gold-light);
@@ -198,20 +199,8 @@
     .contact-info-item p { font-size: 0.9rem; color: var(--gray); }
     .contact-info-item a { color: var(--gray); text-decoration: none; transition: color 0.3s; }
     .contact-info-item a:hover { color: var(--gold); }
-    .contact-form input, .contact-form textarea {
-      width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--gray-light);
-      font-family: 'Inter', sans-serif; font-size: 0.875rem; margin-bottom: 1rem;
-      background: var(--white); transition: border-color 0.3s; outline: none;
-    }
-    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--gold); }
-    .contact-form textarea { height: 120px; resize: vertical; }
-    .contact-form button {
-      background: var(--navy); color: var(--white); border: none; padding: 0.85rem 2rem;
-      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
-      letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: background 0.3s;
-    }
-    .contact-form button:hover { background: var(--gold); }
-    .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+
+    .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; justify-content: center; }
     .social-link {
       display: inline-flex; align-items: center; gap: 0.5rem;
       padding: 0.5rem 1rem; border: 1px solid var(--gray-light);
@@ -226,7 +215,7 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
-      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
       .services-grid { grid-template-columns: 1fr; }
       .team-grid-2, .team-grid-3 { grid-template-columns: repeat(2, 1fr); }
       .strengths-grid { grid-template-columns: 1fr; }
@@ -484,22 +473,22 @@
       </div>
       <div class="reach-countries">
         <div class="reach-card">
-          <div class="reach-flag">&#127474;&#127486;</div>
+          <div class="reach-flag"><img src="https://flagcdn.com/w80/my.png" alt="Bendera Malaysia"></div>
           <h4>Malaysia</h4>
           <p>30+ perusahaan mitra di berbagai sektor</p>
         </div>
         <div class="reach-card">
-          <div class="reach-flag">&#127463;&#127475;</div>
+          <div class="reach-flag"><img src="https://flagcdn.com/w80/bn.png" alt="Bendera Brunei"></div>
           <h4>Brunei Darussalam</h4>
           <p>Agen penempatan tenaga kerja</p>
         </div>
         <div class="reach-card">
-          <div class="reach-flag">&#127469;&#127472;</div>
+          <div class="reach-flag"><img src="https://flagcdn.com/w80/hk.png" alt="Bendera Hong Kong"></div>
           <h4>Hong Kong</h4>
           <p>8+ agen employment agency</p>
         </div>
         <div class="reach-card">
-          <div class="reach-flag">&#127481;&#127484;</div>
+          <div class="reach-flag"><img src="https://flagcdn.com/w80/tw.png" alt="Bendera Taiwan"></div>
           <h4>Taiwan</h4>
           <p>5+ manpower consulting partner</p>
         </div>
@@ -608,12 +597,13 @@
   <!-- KONTAK -->
   <section class="contact" id="kontak">
     <div class="container">
-      <div class="section-label">Hubungi Kami</div>
-      <h2 class="section-title">Kami Siap Melayani Anda</h2>
-      <div class="gold-line"></div>
+      <div style="text-align:center;">
+        <div class="section-label">Hubungi Kami</div>
+        <h2 class="section-title">Kami Siap Melayani Anda</h2>
+        <div class="gold-line" style="margin: 1.5rem auto;"></div>
+      </div>
 
       <div class="contact-grid">
-        <div>
           <div class="contact-info-item">
             <div class="contact-icon">&#9993;</div>
             <div>
@@ -625,7 +615,7 @@
             <div class="contact-icon">&#9742;</div>
             <div>
               <h4>Telepon & Whatsapp</h4>
-              <p>0812-6891-8686</p>
+              <p>0812-6891-8686 ( Ahmad Syukur )<br>0812-7016-478 ( Muslimin Bin Muhammad Idris )</p>
             </div>
           </div>
           <div class="contact-info-item">
@@ -647,14 +637,6 @@
             <a class="social-link" href="#" target="_blank">&#9679; Bumi Mas Antarnusa</a>
             <a class="social-link" href="#" target="_blank">&#9679; bumimasantarnusa_bma</a>
           </div>
-        </div>
-        <div class="contact-form">
-          <input type="text" placeholder="Nama Lengkap" aria-label="Nama Lengkap">
-          <input type="email" placeholder="Alamat Email" aria-label="Alamat Email">
-          <input type="text" placeholder="Nama Perusahaan" aria-label="Nama Perusahaan">
-          <textarea placeholder="Pesan Anda..." aria-label="Pesan"></textarea>
-          <button type="button">Kirim Pesan</button>
-        </div>
       </div>
     </div>
   </section>
