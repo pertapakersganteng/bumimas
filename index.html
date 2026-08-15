@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PT. Bumi Mas Antarnusa — Penyalur Tenaga Kerja Profesional</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --navy: #1B2A4A;
+      --navy-deep: #111D35;
+      --gold: #B8860B;
+      --gold-light: #D4A843;
+      --white: #FFFFFF;
+      --off-white: #F7F8FA;
+      --gray: #6B7280;
+      --gray-light: #E5E7EB;
+      --charcoal: #1F2937;
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; color: var(--charcoal); line-height: 1.7; background: var(--white); }
+
+    /* NAV */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(27, 42, 74, 0.97); backdrop-filter: blur(8px);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between;
+      height: 70px; border-bottom: 2px solid var(--gold);
+    }
+    .nav-logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.25rem; color: var(--white); letter-spacing: 0.02em; }
+    .nav-logo span { color: var(--gold-light); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--gold-light); }
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
+    .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 60%, #253B6E 100%);
+      display: flex; align-items: center; justify-content: center;
+      text-align: center; padding: 6rem 2rem 4rem; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 20% 80%, rgba(184,134,11,0.08) 0%, transparent 50%),
+                  radial-gradient(ellipse at 80% 20%, rgba(184,134,11,0.06) 0%, transparent 50%);
+    }
+    .hero-content { position: relative; max-width: 720px; }
+    .hero-badge {
+      display: inline-block; border: 1px solid var(--gold); color: var(--gold-light);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      padding: 0.5rem 1.5rem; margin-bottom: 2rem;
+    }
+    .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700; color: var(--white); line-height: 1.2; margin-bottom: 1.5rem; }
+    .hero h1 em { font-style: normal; color: var(--gold-light); }
+    .hero-motto { color: rgba(255,255,255,0.5); font-size: 0.85rem; font-style: italic; letter-spacing: 0.05em; margin-bottom: 1rem; }
+    .hero p { color: rgba(255,255,255,0.7); font-size: 1.05rem; max-width: 540px; margin: 0 auto 2.5rem; line-height: 1.8; }
+    .hero-cta {
+      display: inline-block; background: var(--gold); color: var(--white);
+      padding: 0.9rem 2.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem;
+      letter-spacing: 0.05em; text-transform: uppercase; transition: background 0.3s;
+    }
+    .hero-cta:hover { background: var(--gold-light); }
+    .hero-divider { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+    /* SECTIONS */
+    section { padding: 5rem 2rem; }
+    .section-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+    .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; color: var(--navy); margin-bottom: 1rem; line-height: 1.3; }
+    .section-desc { color: var(--gray); font-size: 0.95rem; max-width: 620px; line-height: 1.8; }
+    .gold-line { width: 50px; height: 3px; background: var(--gold); margin: 1.5rem 0; }
+    .container { max-width: 1080px; margin: 0 auto; }
+
+    /* TENTANG KAMI */
+    .about { background: var(--off-white); }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+    .about-visual {
+      background: var(--navy); aspect-ratio: 4/3;
+      display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden;
+    }
+    .about-visual-inner { text-align: center; color: var(--white); padding: 2rem; }
+    .about-visual-inner .big-number { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 700; color: var(--gold-light); line-height: 1; }
+    .about-visual-inner p { font-size: 0.85rem; margin-top: 0.5rem; color: rgba(255,255,255,0.6); letter-spacing: 0.05em; text-transform: uppercase; }
+    .about-stats { display: flex; gap: 2rem; margin-top: 2rem; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700; color: var(--navy); }
+    .stat-label { font-size: 0.75rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
+
+    /* LAYANAN */
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+    .service-card {
+      border: 1px solid var(--gray-light); padding: 2.5rem 2rem;
+      transition: border-color 0.3s, box-shadow 0.3s; background: var(--white);
+    }
+    .service-card:hover { border-color: var(--gold); box-shadow: 0 8px 30px rgba(27,42,74,0.08); }
+    .service-icon {
+      width: 48px; height: 48px; margin-bottom: 1.5rem;
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid var(--gold); color: var(--gold); font-size: 1.2rem;
+    }
+    .service-card h3 { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: var(--navy); margin-bottom: 0.75rem; }
+    .service-card p { font-size: 0.875rem; color: var(--gray); line-height: 1.7; }
+
+    /* SEKTOR */
+    .sectors { background: var(--off-white); }
+    .sector-tags { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2rem; }
+    .sector-tag {
+      background: var(--white); border: 1px solid var(--gray-light);
+      padding: 0.6rem 1.25rem; font-size: 0.85rem; font-weight: 500; color: var(--navy);
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .sector-tag:hover { border-color: var(--gold); background: rgba(184,134,11,0.05); }
+
+    /* KEUNGGULAN */
+    .strengths { background: var(--navy); color: var(--white); }
+    .strengths .section-label { color: var(--gold-light); }
+    .strengths .section-title { color: var(--white); }
+    .strengths .section-desc { color: rgba(255,255,255,0.6); }
+    .strengths-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3rem; }
+    .strength-item { display: flex; gap: 1.25rem; padding: 1.5rem; border: 1px solid rgba(255,255,255,0.1); transition: border-color 0.3s; }
+    .strength-item:hover { border-color: var(--gold); }
+    .strength-marker { flex-shrink: 0; width: 10px; height: 10px; background: var(--gold); margin-top: 0.4rem; }
+    .strength-item h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .strength-item p { font-size: 0.83rem; color: rgba(255,255,255,0.55); line-height: 1.7; }
+
+    /* ALUR */
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 3rem; position: relative; }
+    .process-steps::before { content: ''; position: absolute; top: 28px; left: 12.5%; right: 12.5%; height: 2px; background: var(--gold); }
+    .step { text-align: center; position: relative; padding: 0 1rem; }
+    .step-num {
+      width: 56px; height: 56px; background: var(--navy); color: var(--gold-light);
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      position: relative; z-index: 1; margin-bottom: 1.25rem;
+    }
+    .step h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.4rem; }
+    .step p { font-size: 0.8rem; color: var(--gray); line-height: 1.6; }
+
+    /* JANGKAUAN */
+    .reach { background: var(--off-white); }
+    .reach-countries { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 2.5rem; }
+    .reach-card {
+      background: var(--white); border: 1px solid var(--gray-light);
+      padding: 2rem 1.5rem; text-align: center; transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .reach-card:hover { border-color: var(--gold); box-shadow: 0 4px 20px rgba(27,42,74,0.06); }
+    .reach-flag { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .reach-card h4 { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--navy); margin-bottom: 0.3rem; }
+    .reach-card p { font-size: 0.8rem; color: var(--gray); }
+
+    /* TIM */
+    .team { background: var(--white); }
+    .team-tier { margin-top: 2.5rem; }
+    .team-tier:first-of-type { margin-top: 2rem; }
+    .team-tier-label {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+      padding-bottom: 0.5rem; border-bottom: 1px solid var(--gray-light);
+    }
+    .team-grid { display: grid; gap: 1.5rem; }
+    .team-grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .team-grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .team-card { text-align: center; padding: 1.75rem 1.25rem; border: 1px solid var(--gray-light); transition: border-color 0.3s; }
+    .team-card:hover { border-color: var(--gold); }
+    .team-card-lead { border-color: var(--gold); background: rgba(184,134,11,0.03); }
+    .team-avatar {
+      width: 72px; height: 72px; background: var(--navy); color: var(--gold-light);
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+      margin-bottom: 0.75rem;
+    }
+    .team-card-lead .team-avatar { width: 84px; height: 84px; font-size: 1.5rem; }
+    .team-card h4 { font-size: 0.9rem; font-weight: 600; color: var(--navy); margin-bottom: 0.25rem; }
+    .team-card p { font-size: 0.78rem; color: var(--gray); letter-spacing: 0.02em; }
+
+    /* CTA */
+    .cta-section { background: linear-gradient(160deg, var(--navy-deep), var(--navy)); text-align: center; padding: 5rem 2rem; }
+    .cta-section h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.5rem, 3vw, 2rem); color: var(--white); margin-bottom: 1rem; }
+    .cta-section p { color: rgba(255,255,255,0.6); margin-bottom: 2rem; font-size: 0.95rem; }
+    .cta-btn {
+      display: inline-block; background: var(--gold); color: var(--white);
+      padding: 0.9rem 2.5rem; text-decoration: none; font-weight: 600; font-size: 0.875rem;
+      letter-spacing: 0.05em; text-transform: uppercase; transition: background 0.3s;
+    }
+    .cta-btn:hover { background: var(--gold-light); }
+
+    /* KONTAK */
+    .contact { background: var(--off-white); }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 2.5rem; }
+    .contact-info-item { display: flex; gap: 1rem; margin-bottom: 1.75rem; }
+    .contact-icon {
+      flex-shrink: 0; width: 44px; height: 44px; background: var(--navy); color: var(--gold-light);
+      display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    }
+    .contact-info-item h4 { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--navy); margin-bottom: 0.2rem; }
+    .contact-info-item p { font-size: 0.9rem; color: var(--gray); }
+    .contact-info-item a { color: var(--gray); text-decoration: none; transition: color 0.3s; }
+    .contact-info-item a:hover { color: var(--gold); }
+    .contact-form input, .contact-form textarea {
+      width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--gray-light);
+      font-family: 'Inter', sans-serif; font-size: 0.875rem; margin-bottom: 1rem;
+      background: var(--white); transition: border-color 0.3s; outline: none;
+    }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--gold); }
+    .contact-form textarea { height: 120px; resize: vertical; }
+    .contact-form button {
+      background: var(--navy); color: var(--white); border: none; padding: 0.85rem 2rem;
+      font-family: 'Inter', sans-serif; font-size: 0.85rem; font-weight: 600;
+      letter-spacing: 0.05em; text-transform: uppercase; cursor: pointer; transition: background 0.3s;
+    }
+    .contact-form button:hover { background: var(--gold); }
+    .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; }
+    .social-link {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem; border: 1px solid var(--gray-light);
+      font-size: 0.8rem; color: var(--navy); text-decoration: none;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .social-link:hover { border-color: var(--gold); background: rgba(184,134,11,0.05); }
+
+    /* FOOTER */
+    .footer { background: var(--navy-deep); padding: 2.5rem 2rem; text-align: center; border-top: 2px solid var(--gold); }
+    .footer p { color: rgba(255,255,255,0.4); font-size: 0.8rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .services-grid { grid-template-columns: 1fr; }
+      .team-grid-2, .team-grid-3 { grid-template-columns: repeat(2, 1fr); }
+      .strengths-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+      .process-steps::before { display: none; }
+      .reach-countries { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .nav-links.open {
+        display: flex; flex-direction: column; position: absolute; top: 70px; left: 0; right: 0;
+        background: var(--navy-deep); padding: 1.5rem 2rem; gap: 1.25rem; border-bottom: 2px solid var(--gold);
+      }
+      .nav-toggle { display: block; }
+      .process-steps { grid-template-columns: 1fr; }
+      .about-stats { flex-direction: column; gap: 1rem; }
+      .reach-countries { grid-template-columns: 1fr; }
+      .team-grid-2, .team-grid-3 { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="nav-logo">Bumi Mas <span>Antarnusa</span></div>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#beranda">Beranda</a></li>
+      <li><a href="#tentang">Tentang</a></li>
+      <li><a href="#layanan">Layanan</a></li>
+      <li><a href="#jangkauan">Jangkauan</a></li>
+      <li><a href="#tim">Tim</a></li>
+      <li><a href="#kontak">Kontak</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="beranda">
+    <div class="hero-content">
+      <div class="hero-badge">P3MI — Berpengalaman Lebih dari 26 Tahun</div>
+      <h1>Menyediakan <em>Tenaga Kerja</em> Profesional untuk Pasar Dalam &amp; Luar Negeri</h1>
+      <div class="hero-motto">"Your Need is Our Best Service"</div>
+      <p>PT. Bumi Mas Antarnusa adalah perusahaan rekrutmen terkemuka yang menyalurkan tenaga kerja terampil ke berbagai sektor industri di Malaysia, Brunei, Hong Kong, dan Taiwan.</p>
+      <a href="#kontak" class="hero-cta">Hubungi Kami</a>
+    </div>
+    <div class="hero-divider"></div>
+  </section>
+
+  <!-- TENTANG KAMI -->
+  <section class="about" id="tentang">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-visual">
+          <div class="about-visual-inner">
+            <div class="big-number">26+</div>
+            <p>Tahun Pengalaman</p>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Tentang Kami</div>
+          <h2 class="section-title">Perusahaan Penempatan Pekerja Migran Indonesia (P3MI)</h2>
+          <div class="gold-line"></div>
+          <p class="section-desc">
+            PT. Bumi Mas Antarnusa (BMA) adalah perusahaan yang bergerak di bidang penyediaan jasa tenaga kerja profesional untuk ditempatkan di pasar luar negeri dan dalam negeri. BMA telah memperoleh izin resmi dari Kementerian Ketenagakerjaan Republik Indonesia sebagai P3MI.
+          </p>
+          <p class="section-desc" style="margin-top: 1rem;">
+            Sejak berdiri, kami telah mengirim banyak tenaga kerja ke beberapa negara di berbagai sektor pekerjaan. Kami memiliki banyak pengalaman dalam merekrut tenaga kerja untuk memenuhi kebutuhan luar negeri, dan tidak sulit bagi kami untuk merekrut tenaga kerja potensial lokal di Indonesia untuk ditempatkan pada sektor pekerjaan yang sesuai.
+          </p>
+          <div class="about-stats">
+            <div class="stat">
+              <div class="stat-num">4</div>
+              <div class="stat-label">Negara Tujuan</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">50+</div>
+              <div class="stat-label">Perusahaan Mitra</div>
+            </div>
+            <div class="stat">
+              <div class="stat-num">8+</div>
+              <div class="stat-label">Sektor Industri</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LAYANAN -->
+  <section class="services" id="layanan">
+    <div class="container">
+      <div class="section-label">Kegiatan Usaha</div>
+      <h2 class="section-title">Proses Rekrutmen &amp; Seleksi Kami</h2>
+      <div class="gold-line"></div>
+      <p class="section-desc">BMA selalu siap memenuhi kebutuhan Anda dengan menyediakan tenaga profesional yang mumpuni. Kami melakukan proses rekrutmen dan seleksi melalui langkah-langkah berikut:</p>
+
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon">&#9670;</div>
+          <h3>Identifikasi Kandidat</h3>
+          <p>Pencarian dan identifikasi kandidat yang cocok sesuai dengan kebutuhan dan spesifikasi pekerjaan yang dibutuhkan perusahaan mitra.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#9674;</div>
+          <h3>Pendaftaran &amp; Seleksi</h3>
+          <p>Mempersiapkan pendaftaran dan daftar kandidat dengan spesifikasi sesuai kebutuhan kerja, dilanjutkan dengan wawancara tahap awal.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#9650;</div>
+          <h3>Verifikasi Dokumen</h3>
+          <p>Pemeriksaan kelengkapan dan keabsahan seluruh dokumen calon tenaga kerja untuk memastikan validitas data.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#9632;</div>
+          <h3>Medical &amp; Psikotes</h3>
+          <p>Pengaturan pemeriksaan kesehatan dan tes psikologi calon pekerja sesuai standar yang diminta oleh perusahaan klien.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#9733;</div>
+          <h3>Penyerahan Data Kandidat</h3>
+          <p>Menyerahkan data lengkap calon tenaga kerja yang telah lolos seleksi kepada perusahaan mitra untuk dipilih.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">&#9679;</div>
+          <h3>Mobilisasi &amp; Penempatan</h3>
+          <p>Mempersiapkan keperluan untuk memobilisasi calon pekerja yang telah lulus seleksi dan siap untuk ditempatkan bekerja.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEKTOR -->
+  <section class="sectors">
+    <div class="container">
+      <div class="section-label">Sektor Industri</div>
+      <h2 class="section-title">Berbagai Bidang Penempatan Tenaga Kerja</h2>
+      <div class="gold-line"></div>
+      <p class="section-desc">Kami menyalurkan tenaga kerja profesional ke berbagai sektor industri di dalam dan luar negeri.</p>
+      <div class="sector-tags">
+        <span class="sector-tag">Konstruksi</span>
+        <span class="sector-tag">Perladangan / Pertanian</span>
+        <span class="sector-tag">Konveksi</span>
+        <span class="sector-tag">Plywood</span>
+        <span class="sector-tag">Elektronik</span>
+        <span class="sector-tag">Cleaning Service</span>
+        <span class="sector-tag">Restoran</span>
+        <span class="sector-tag">Perhotelan</span>
+        <span class="sector-tag">Golf &amp; Resort</span>
+        <span class="sector-tag">Peternakan</span>
+        <span class="sector-tag">Aquaculture</span>
+        <span class="sector-tag">Spa &amp; Reflexology</span>
+        <span class="sector-tag">Ground Maintenance</span>
+        <span class="sector-tag">Manufaktur</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- KEUNGGULAN -->
+  <section class="strengths" id="keunggulan">
+    <div class="container">
+      <div class="section-label">Keunggulan Kami</div>
+      <h2 class="section-title">Mengapa Memilih BMA</h2>
+      <div class="gold-line"></div>
+      <p class="section-desc">Layanan berkualitas terbaik, dengan orang yang tepat, pada waktu yang tepat, dan harga yang kompetitif.</p>
+      <div class="strengths-grid">
+        <div class="strength-item">
+          <div class="strength-marker"></div>
+          <div>
+            <h4>Legalitas Resmi P3MI</h4>
+            <p>Terdaftar dan berizin resmi dari Kementerian Ketenagakerjaan Republik Indonesia dengan NIB: 9120501892211.</p>
+          </div>
+        </div>
+        <div class="strength-item">
+          <div class="strength-marker"></div>
+          <div>
+            <h4>Pengalaman 26+ Tahun</h4>
+            <p>Lebih dari dua dekade pengalaman dalam merekrut dan menyalurkan tenaga kerja profesional ke berbagai negara.</p>
+          </div>
+        </div>
+        <div class="strength-item">
+          <div class="strength-marker"></div>
+          <div>
+            <h4>Seleksi Multi-Tahap</h4>
+            <p>Proses rekrutmen mencakup identifikasi, wawancara, verifikasi dokumen, medical check-up, dan psikotes.</p>
+          </div>
+        </div>
+        <div class="strength-item">
+          <div class="strength-marker"></div>
+          <div>
+            <h4>Jaringan Internasional</h4>
+            <p>Klien tersebar di Malaysia, Brunei Darussalam, Hong Kong, dan Taiwan di berbagai sektor industri.</p>
+          </div>
+        </div>
+        <div class="strength-item">
+          <div class="strength-marker"></div>
+          <div>
+            <h4>Tenaga Kerja Terlatih</h4>
+            <p>Setiap tenaga kerja telah melalui pelatihan dan pembekalan sebelum ditempatkan di perusahaan mitra.</p>
+          </div>
+        </div>
+        <div class="strength-item">
+          <div class="strength-marker"></div>
+          <div>
+            <h4>Berorientasi Keselamatan</h4>
+            <p>Mengutamakan keselamatan dan perlindungan Pekerja Migran Indonesia, baik di Indonesia maupun di negara penempatan.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ALUR KERJA -->
+  <section class="process">
+    <div class="container">
+      <div style="text-align:center;">
+        <div class="section-label">Alur Kerja Sama</div>
+        <h2 class="section-title">Proses yang Transparan</h2>
+        <div class="gold-line" style="margin: 1.5rem auto;"></div>
+      </div>
+      <div class="process-steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <h4>Konsultasi</h4>
+          <p>Diskusi kebutuhan tenaga kerja, spesifikasi, dan jumlah yang dibutuhkan.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <h4>Rekrutmen</h4>
+          <p>Pencarian, seleksi, wawancara, dan verifikasi dokumen kandidat.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <h4>Pembekalan</h4>
+          <p>Medical check-up, psikotes, dan persiapan administrasi keberangkatan.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <h4>Penempatan</h4>
+          <p>Mobilisasi dan penempatan tenaga kerja di perusahaan mitra tujuan.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JANGKAUAN -->
+  <section class="reach" id="jangkauan">
+    <div class="container">
+      <div style="text-align:center;">
+        <div class="section-label">Jangkauan Internasional</div>
+        <h2 class="section-title">Negara Tujuan Penempatan</h2>
+        <div class="gold-line" style="margin: 1.5rem auto;"></div>
+      </div>
+      <div class="reach-countries">
+        <div class="reach-card">
+          <div class="reach-flag">&#127474;&#127486;</div>
+          <h4>Malaysia</h4>
+          <p>30+ perusahaan mitra di berbagai sektor</p>
+        </div>
+        <div class="reach-card">
+          <div class="reach-flag">&#127463;&#127475;</div>
+          <h4>Brunei Darussalam</h4>
+          <p>Agen penempatan tenaga kerja</p>
+        </div>
+        <div class="reach-card">
+          <div class="reach-flag">&#127469;&#127472;</div>
+          <h4>Hong Kong</h4>
+          <p>8+ agen employment agency</p>
+        </div>
+        <div class="reach-card">
+          <div class="reach-flag">&#127481;&#127484;</div>
+          <h4>Taiwan</h4>
+          <p>5+ manpower consulting partner</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIM MANAJEMEN -->
+  <section class="team" id="tim">
+    <div class="container">
+      <div class="section-label">Struktur Organisasi</div>
+      <h2 class="section-title">Tim Profesional Kami</h2>
+      <div class="gold-line"></div>
+
+      <!-- Pimpinan -->
+      <div class="team-tier">
+        <div class="team-tier-label">Pimpinan</div>
+        <div class="team-grid team-grid-2">
+          <div class="team-card team-card-lead">
+            <div class="team-avatar">SP</div>
+            <h4>Sugeng Pujiono</h4>
+            <p>President Director</p>
+          </div>
+          <div class="team-card team-card-lead">
+            <div class="team-avatar">RK</div>
+            <h4>Ratna Kusuma Astuti</h4>
+            <p>Director</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Kepala Cabang & Marketing Director -->
+      <div class="team-tier">
+        <div class="team-tier-label">Manajemen</div>
+        <div class="team-grid team-grid-3">
+          <div class="team-card">
+            <div class="team-avatar">AS</div>
+            <h4>Ahmad Syukur</h4>
+            <p>Kepala Cabang — Cilacap, Jawa Tengah</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">MI</div>
+            <h4>Muslimin Bin Muhammad Idris</h4>
+            <p>Marketing Director</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">AR</div>
+            <h4>Abd Rahman</h4>
+            <p>Kepala Cabang — Karimun, Kepri</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staff -->
+      <div class="team-tier">
+        <div class="team-tier-label">Staff</div>
+        <div class="team-grid team-grid-3">
+          <div class="team-card">
+            <div class="team-avatar">AT</div>
+            <h4>Adiah Tri Wulandari</h4>
+            <p>Finance Staff</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">MF</div>
+            <h4>Muhamad Irfan</h4>
+            <p>Operational Staff</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">KA</div>
+            <h4>Khusnul Alfiatul F</h4>
+            <p>Public Administration &amp; Processing</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">AP</div>
+            <h4>Aprilia Dwi Putri</h4>
+            <p>Junior Marketing</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">AS</div>
+            <h4>Arina Sifaul Ummah</h4>
+            <p>Administration &amp; Register</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">MR</div>
+            <h4>Muhamad Riski</h4>
+            <p>Public Staff</p>
+          </div>
+          <div class="team-card">
+            <div class="team-avatar">DA</div>
+            <h4>Dea Ainun Safitri</h4>
+            <p>Public Staff</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>Siap Menemukan Tenaga Kerja yang Tepat?</h2>
+    <p>Hubungi kami untuk konsultasi kebutuhan tenaga kerja Anda.</p>
+    <a href="#kontak" class="cta-btn">Hubungi Kami</a>
+  </section>
+
+  <!-- KONTAK -->
+  <section class="contact" id="kontak">
+    <div class="container">
+      <div class="section-label">Hubungi Kami</div>
+      <h2 class="section-title">Kami Siap Melayani Anda</h2>
+      <div class="gold-line"></div>
+
+      <div class="contact-grid">
+        <div>
+          <div class="contact-info-item">
+            <div class="contact-icon">&#9993;</div>
+            <div>
+              <h4>Email</h4>
+              <p><a href="mailto:bumimas_one@yahoo.com">bumimas_one@yahoo.com</a></p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">&#9742;</div>
+            <div>
+              <h4>Telepon</h4>
+              <p>0812-1783-397 / (031) 85588854</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">&#9873;</div>
+            <div>
+              <h4>Alamat Kantor</h4>
+              <p>Perum Graha Tirta, Jl. Tirta Dahlia No. 46<br>Waru, Sidoarjo, Jawa Timur</p>
+            </div>
+          </div>
+          <div class="contact-info-item">
+            <div class="contact-icon">&#127760;</div>
+            <div>
+              <h4>Website</h4>
+              <p><a href="https://bumimasantarnusa.com/" target="_blank">bumimasantarnusa.com</a></p>
+            </div>
+          </div>
+          <div class="social-links">
+            <a class="social-link" href="https://instagram.com/bumimasantarnusa" target="_blank">&#9679; @bumimasantarnusa</a>
+            <a class="social-link" href="#" target="_blank">&#9679; Bumi Mas Antarnusa</a>
+            <a class="social-link" href="#" target="_blank">&#9679; bumimasantarnusa_bma</a>
+          </div>
+        </div>
+        <div class="contact-form">
+          <input type="text" placeholder="Nama Lengkap" aria-label="Nama Lengkap">
+          <input type="email" placeholder="Alamat Email" aria-label="Alamat Email">
+          <input type="text" placeholder="Nama Perusahaan" aria-label="Nama Perusahaan">
+          <textarea placeholder="Pesan Anda..." aria-label="Pesan"></textarea>
+          <button type="button">Kirim Pesan</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>&copy; 2024 PT. Bumi Mas Antarnusa. Seluruh hak cipta dilindungi.</p>
+  </footer>
+
+  <script>
+    document.getElementById('navToggle').addEventListener('click', function() {
+      document.getElementById('navLinks').classList.toggle('open');
+    });
+    document.querySelectorAll('.nav-links a').forEach(function(link) {
+      link.addEventListener('click', function() {
+        document.getElementById('navLinks').classList.remove('open');
+      });
+    });
+  </script>
+
+</body>
+</html>
