@@ -31,11 +31,43 @@
     }
     .nav-logo { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.25rem; color: var(--white); letter-spacing: 0.02em; }
     .nav-logo span { color: var(--gold-light); }
+    .nav-right { display: flex; align-items: center; gap: 1.5rem; }
     .nav-links { display: flex; gap: 2rem; list-style: none; }
     .nav-links a { color: rgba(255,255,255,0.8); text-decoration: none; font-size: 0.875rem; font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; transition: color 0.3s; }
     .nav-links a:hover { color: var(--gold-light); }
     .nav-toggle { display: none; background: none; border: none; cursor: pointer; }
     .nav-toggle span { display: block; width: 24px; height: 2px; background: var(--white); margin: 5px 0; transition: 0.3s; }
+
+    /* LANGUAGE SWITCHER */
+    .lang-switcher {
+      position: relative; display: flex; align-items: center;
+    }
+    .lang-btn {
+      display: flex; align-items: center; gap: 0.4rem;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
+      color: var(--white); padding: 0.35rem 0.75rem;
+      font-family: 'Inter', sans-serif; font-size: 0.75rem; font-weight: 600;
+      letter-spacing: 0.05em; cursor: pointer; transition: background 0.3s, border-color 0.3s;
+    }
+    .lang-btn:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); }
+    .lang-btn img { width: 18px; height: 13px; border-radius: 2px; object-fit: cover; }
+    .lang-btn svg { width: 10px; height: 10px; fill: rgba(255,255,255,0.6); transition: transform 0.3s; }
+    .lang-switcher.open .lang-btn svg { transform: rotate(180deg); }
+    .lang-dropdown {
+      display: none; position: absolute; top: calc(100% + 8px); right: 0;
+      background: var(--white); border: 1px solid var(--gray-light);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15); min-width: 160px; z-index: 200;
+    }
+    .lang-switcher.open .lang-dropdown { display: block; }
+    .lang-option {
+      display: flex; align-items: center; gap: 0.6rem;
+      padding: 0.65rem 1rem; font-size: 0.8rem; font-weight: 500; color: var(--charcoal);
+      cursor: pointer; transition: background 0.2s; border: none; background: none; width: 100%;
+      font-family: 'Inter', sans-serif; text-align: left;
+    }
+    .lang-option:hover { background: var(--off-white); }
+    .lang-option.active { color: var(--gold); font-weight: 600; }
+    .lang-option img { width: 20px; height: 14px; border-radius: 2px; object-fit: cover; }
 
     /* HERO */
     .hero {
@@ -199,7 +231,6 @@
     .contact-info-item p { font-size: 0.9rem; color: var(--gray); }
     .contact-info-item a { color: var(--gray); text-decoration: none; transition: color 0.3s; }
     .contact-info-item a:hover { color: var(--gold); }
-
     .social-links { display: flex; gap: 1rem; margin-top: 1.5rem; flex-wrap: wrap; justify-content: center; }
     .social-link {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -230,6 +261,7 @@
         background: var(--navy-deep); padding: 1.5rem 2rem; gap: 1.25rem; border-bottom: 2px solid var(--gold);
       }
       .nav-toggle { display: block; }
+      .nav-right { gap: 0.75rem; }
       .process-steps { grid-template-columns: 1fr; }
       .about-stats { flex-direction: column; gap: 1rem; }
       .reach-countries { grid-template-columns: 1fr; }
@@ -243,27 +275,48 @@
   <!-- NAV -->
   <nav class="navbar">
     <div class="nav-logo">Bumi Mas <span>Antarnusa</span></div>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="#beranda">Beranda</a></li>
-      <li><a href="#tentang">Tentang</a></li>
-      <li><a href="#layanan">Layanan</a></li>
-      <li><a href="#jangkauan">Jangkauan</a></li>
-      <li><a href="#tim">Tim</a></li>
-      <li><a href="#kontak">Kontak</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#beranda" data-i18n="nav_beranda">Beranda</a></li>
+        <li><a href="#tentang" data-i18n="nav_tentang">Tentang</a></li>
+        <li><a href="#layanan" data-i18n="nav_layanan">Layanan</a></li>
+        <li><a href="#jangkauan" data-i18n="nav_jangkauan">Jangkauan</a></li>
+        <li><a href="#tim" data-i18n="nav_tim">Tim</a></li>
+        <li><a href="#kontak" data-i18n="nav_kontak">Kontak</a></li>
+      </ul>
+      <!-- Language Switcher -->
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn" id="langBtn" aria-label="Pilih Bahasa">
+          <img src="https://flagcdn.com/w40/id.png" alt="" id="langFlagImg">
+          <span id="langLabel">ID</span>
+          <svg viewBox="0 0 10 6"><path d="M0 0l5 6 5-6z"/></svg>
+        </button>
+        <div class="lang-dropdown" id="langDropdown">
+          <button class="lang-option active" data-lang="id">
+            <img src="https://flagcdn.com/w40/id.png" alt=""> Indonesia
+          </button>
+          <button class="lang-option" data-lang="en">
+            <img src="https://flagcdn.com/w40/gb.png" alt=""> English
+          </button>
+          <button class="lang-option" data-lang="ms">
+            <img src="https://flagcdn.com/w40/my.png" alt=""> Melayu
+          </button>
+        </div>
+      </div>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero" id="beranda">
     <div class="hero-content">
-      <div class="hero-badge">P3MI — Berpengalaman Lebih dari 26 Tahun</div>
-      <h1>Menyediakan <em>Tenaga Kerja</em> Profesional untuk Pasar Dalam &amp; Luar Negeri</h1>
+      <div class="hero-badge" data-i18n="hero_badge">P3MI — Berpengalaman Lebih dari 26 Tahun</div>
+      <h1 data-i18n="hero_title" data-i18n-html="1">Menyediakan <em>Tenaga Kerja</em> Profesional untuk Pasar Dalam &amp; Luar Negeri</h1>
       <div class="hero-motto">"Your Need is Our Best Service"</div>
-      <p>PT. Bumi Mas Antarnusa adalah perusahaan rekrutmen terkemuka yang menyalurkan tenaga kerja terampil ke berbagai sektor industri di Malaysia, Brunei, Hong Kong, dan Taiwan.</p>
-      <a href="#kontak" class="hero-cta">Hubungi Kami</a>
+      <p data-i18n="hero_desc">PT. Bumi Mas Antarnusa adalah perusahaan rekrutmen terkemuka yang menyalurkan tenaga kerja terampil ke berbagai sektor industri di Malaysia, Brunei, Hong Kong, dan Taiwan.</p>
+      <a href="#kontak" class="hero-cta" data-i18n="hero_cta">Hubungi Kami</a>
     </div>
     <div class="hero-divider"></div>
   </section>
@@ -275,31 +328,31 @@
         <div class="about-visual">
           <div class="about-visual-inner">
             <div class="big-number">26+</div>
-            <p>Tahun Pengalaman</p>
+            <p data-i18n="about_exp">Tahun Pengalaman</p>
           </div>
         </div>
         <div>
-          <div class="section-label">Tentang Kami</div>
-          <h2 class="section-title">Perusahaan Penempatan Pekerja Migran Indonesia (P3MI)</h2>
+          <div class="section-label" data-i18n="about_label">Tentang Kami</div>
+          <h2 class="section-title" data-i18n="about_title">Perusahaan Penempatan Pekerja Migran Indonesia (P3MI)</h2>
           <div class="gold-line"></div>
-          <p class="section-desc">
+          <p class="section-desc" data-i18n="about_desc1">
             PT. Bumi Mas Antarnusa (BMA) adalah perusahaan yang bergerak di bidang penyediaan jasa tenaga kerja profesional untuk ditempatkan di pasar luar negeri dan dalam negeri. BMA telah memperoleh izin resmi dari Kementerian Ketenagakerjaan Republik Indonesia sebagai P3MI.
           </p>
-          <p class="section-desc" style="margin-top: 1rem;">
+          <p class="section-desc" style="margin-top: 1rem;" data-i18n="about_desc2">
             Sejak berdiri, kami telah mengirim banyak tenaga kerja ke beberapa negara di berbagai sektor pekerjaan. Kami memiliki banyak pengalaman dalam merekrut tenaga kerja untuk memenuhi kebutuhan luar negeri, dan tidak sulit bagi kami untuk merekrut tenaga kerja potensial lokal di Indonesia untuk ditempatkan pada sektor pekerjaan yang sesuai.
           </p>
           <div class="about-stats">
             <div class="stat">
               <div class="stat-num">4</div>
-              <div class="stat-label">Negara Tujuan</div>
+              <div class="stat-label" data-i18n="stat_negara">Negara Tujuan</div>
             </div>
             <div class="stat">
               <div class="stat-num">50+</div>
-              <div class="stat-label">Perusahaan Mitra</div>
+              <div class="stat-label" data-i18n="stat_mitra">Perusahaan Mitra</div>
             </div>
             <div class="stat">
               <div class="stat-num">8+</div>
-              <div class="stat-label">Sektor Industri</div>
+              <div class="stat-label" data-i18n="stat_sektor">Sektor Industri</div>
             </div>
           </div>
         </div>
@@ -310,41 +363,41 @@
   <!-- LAYANAN -->
   <section class="services" id="layanan">
     <div class="container">
-      <div class="section-label">Kegiatan Usaha</div>
-      <h2 class="section-title">Proses Rekrutmen &amp; Seleksi Kami</h2>
+      <div class="section-label" data-i18n="svc_label">Kegiatan Usaha</div>
+      <h2 class="section-title" data-i18n="svc_title">Proses Rekrutmen &amp; Seleksi Kami</h2>
       <div class="gold-line"></div>
-      <p class="section-desc">BMA selalu siap memenuhi kebutuhan Anda dengan menyediakan tenaga profesional yang mumpuni. Kami melakukan proses rekrutmen dan seleksi melalui langkah-langkah berikut:</p>
+      <p class="section-desc" data-i18n="svc_desc">BMA selalu siap memenuhi kebutuhan Anda dengan menyediakan tenaga profesional yang mumpuni. Kami melakukan proses rekrutmen dan seleksi melalui langkah-langkah berikut:</p>
 
       <div class="services-grid">
         <div class="service-card">
           <div class="service-icon">&#9670;</div>
-          <h3>Identifikasi Kandidat</h3>
-          <p>Pencarian dan identifikasi kandidat yang cocok sesuai dengan kebutuhan dan spesifikasi pekerjaan yang dibutuhkan perusahaan mitra.</p>
+          <h3 data-i18n="svc1_title">Identifikasi Kandidat</h3>
+          <p data-i18n="svc1_desc">Pencarian dan identifikasi kandidat yang cocok sesuai dengan kebutuhan dan spesifikasi pekerjaan yang dibutuhkan perusahaan mitra.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon">&#9674;</div>
-          <h3>Pendaftaran &amp; Seleksi</h3>
-          <p>Mempersiapkan pendaftaran dan daftar kandidat dengan spesifikasi sesuai kebutuhan kerja, dilanjutkan dengan wawancara tahap awal.</p>
+          <div class="service-icon">&#9654;</div>
+          <h3 data-i18n="svc2_title">Wawancara &amp; Seleksi</h3>
+          <p data-i18n="svc2_desc">Melakukan wawancara dan tes kemampuan untuk menyeleksi kandidat terbaik sesuai kriteria yang ditentukan.</p>
         </div>
         <div class="service-card">
-          <div class="service-icon">&#9650;</div>
-          <h3>Verifikasi Dokumen</h3>
-          <p>Pemeriksaan kelengkapan dan keabsahan seluruh dokumen calon tenaga kerja untuk memastikan validitas data.</p>
+          <div class="service-icon">&#9660;</div>
+          <h3 data-i18n="svc3_title">Verifikasi Dokumen</h3>
+          <p data-i18n="svc3_desc">Pemeriksaan dan verifikasi kelengkapan dokumen calon tenaga kerja untuk memastikan legalitas dan keabsahan.</p>
         </div>
         <div class="service-card">
           <div class="service-icon">&#9632;</div>
-          <h3>Medical &amp; Psikotes</h3>
-          <p>Pengaturan pemeriksaan kesehatan dan tes psikologi calon pekerja sesuai standar yang diminta oleh perusahaan klien.</p>
+          <h3 data-i18n="svc4_title">Medical &amp; Psikotes</h3>
+          <p data-i18n="svc4_desc">Pengaturan pemeriksaan kesehatan dan tes psikologi calon pekerja sesuai standar yang diminta oleh perusahaan klien.</p>
         </div>
         <div class="service-card">
           <div class="service-icon">&#9733;</div>
-          <h3>Penyerahan Data Kandidat</h3>
-          <p>Menyerahkan data lengkap calon tenaga kerja yang telah lolos seleksi kepada perusahaan mitra untuk dipilih.</p>
+          <h3 data-i18n="svc5_title">Penyerahan Data Kandidat</h3>
+          <p data-i18n="svc5_desc">Menyerahkan data lengkap calon tenaga kerja yang telah lolos seleksi kepada perusahaan mitra untuk dipilih.</p>
         </div>
         <div class="service-card">
           <div class="service-icon">&#9679;</div>
-          <h3>Mobilisasi &amp; Penempatan</h3>
-          <p>Mempersiapkan keperluan untuk memobilisasi calon pekerja yang telah lulus seleksi dan siap untuk ditempatkan bekerja.</p>
+          <h3 data-i18n="svc6_title">Mobilisasi &amp; Penempatan</h3>
+          <p data-i18n="svc6_desc">Mempersiapkan keperluan untuk memobilisasi calon pekerja yang telah lulus seleksi dan siap untuk ditempatkan bekerja.</p>
         </div>
       </div>
     </div>
@@ -353,25 +406,25 @@
   <!-- SEKTOR -->
   <section class="sectors">
     <div class="container">
-      <div class="section-label">Sektor Industri</div>
-      <h2 class="section-title">Berbagai Bidang Penempatan Tenaga Kerja</h2>
+      <div class="section-label" data-i18n="sec_label">Sektor Industri</div>
+      <h2 class="section-title" data-i18n="sec_title">Berbagai Bidang Penempatan Tenaga Kerja</h2>
       <div class="gold-line"></div>
-      <p class="section-desc">Kami menyalurkan tenaga kerja profesional ke berbagai sektor industri di dalam dan luar negeri.</p>
+      <p class="section-desc" data-i18n="sec_desc">Kami menyalurkan tenaga kerja profesional ke berbagai sektor industri di dalam dan luar negeri.</p>
       <div class="sector-tags">
-        <span class="sector-tag">Konstruksi</span>
-        <span class="sector-tag">Perladangan / Pertanian</span>
-        <span class="sector-tag">Konveksi</span>
+        <span class="sector-tag" data-i18n="sec_konstruksi">Konstruksi</span>
+        <span class="sector-tag" data-i18n="sec_pertanian">Perladangan / Pertanian</span>
+        <span class="sector-tag" data-i18n="sec_konveksi">Konveksi</span>
         <span class="sector-tag">Plywood</span>
-        <span class="sector-tag">Elektronik</span>
+        <span class="sector-tag" data-i18n="sec_elektronik">Elektronik</span>
         <span class="sector-tag">Cleaning Service</span>
-        <span class="sector-tag">Restoran</span>
-        <span class="sector-tag">Perhotelan</span>
+        <span class="sector-tag" data-i18n="sec_restoran">Restoran</span>
+        <span class="sector-tag" data-i18n="sec_perhotelan">Perhotelan</span>
         <span class="sector-tag">Golf &amp; Resort</span>
-        <span class="sector-tag">Peternakan</span>
+        <span class="sector-tag" data-i18n="sec_peternakan">Peternakan</span>
         <span class="sector-tag">Aquaculture</span>
         <span class="sector-tag">Spa &amp; Reflexology</span>
         <span class="sector-tag">Ground Maintenance</span>
-        <span class="sector-tag">Manufaktur</span>
+        <span class="sector-tag" data-i18n="sec_manufaktur">Manufaktur</span>
       </div>
     </div>
   </section>
@@ -379,51 +432,51 @@
   <!-- KEUNGGULAN -->
   <section class="strengths" id="keunggulan">
     <div class="container">
-      <div class="section-label">Keunggulan Kami</div>
-      <h2 class="section-title">Mengapa Memilih BMA</h2>
+      <div class="section-label" data-i18n="str_label">Keunggulan Kami</div>
+      <h2 class="section-title" data-i18n="str_title">Mengapa Memilih BMA</h2>
       <div class="gold-line"></div>
-      <p class="section-desc">Layanan berkualitas terbaik, dengan orang yang tepat, pada waktu yang tepat, dan harga yang kompetitif.</p>
+      <p class="section-desc" data-i18n="str_desc">Layanan berkualitas terbaik, dengan orang yang tepat, pada waktu yang tepat, dan harga yang kompetitif.</p>
       <div class="strengths-grid">
         <div class="strength-item">
           <div class="strength-marker"></div>
           <div>
-            <h4>Legalitas Resmi P3MI</h4>
-            <p>Terdaftar dan berizin resmi dari Kementerian Ketenagakerjaan Republik Indonesia dengan NIB: 9120501892211.</p>
+            <h4 data-i18n="str1_title">Legalitas Resmi P3MI</h4>
+            <p data-i18n="str1_desc">Terdaftar dan berizin resmi dari Kementerian Ketenagakerjaan Republik Indonesia dengan NIB: 9120501892211.</p>
           </div>
         </div>
         <div class="strength-item">
           <div class="strength-marker"></div>
           <div>
-            <h4>Pengalaman 26+ Tahun</h4>
-            <p>Lebih dari dua dekade pengalaman dalam merekrut dan menyalurkan tenaga kerja profesional ke berbagai negara.</p>
+            <h4 data-i18n="str2_title">Pengalaman 26+ Tahun</h4>
+            <p data-i18n="str2_desc">Lebih dari dua dekade pengalaman dalam merekrut dan menyalurkan tenaga kerja profesional ke berbagai negara.</p>
           </div>
         </div>
         <div class="strength-item">
           <div class="strength-marker"></div>
           <div>
-            <h4>Seleksi Multi-Tahap</h4>
-            <p>Proses rekrutmen mencakup identifikasi, wawancara, verifikasi dokumen, medical check-up, dan psikotes.</p>
+            <h4 data-i18n="str3_title">Seleksi Multi-Tahap</h4>
+            <p data-i18n="str3_desc">Proses rekrutmen mencakup identifikasi, wawancara, verifikasi dokumen, medical check-up, dan psikotes.</p>
           </div>
         </div>
         <div class="strength-item">
           <div class="strength-marker"></div>
           <div>
-            <h4>Jaringan Internasional</h4>
-            <p>Klien tersebar di Malaysia, Brunei Darussalam, Hong Kong, dan Taiwan di berbagai sektor industri.</p>
+            <h4 data-i18n="str4_title">Jaringan Internasional</h4>
+            <p data-i18n="str4_desc">Klien tersebar di Malaysia, Brunei Darussalam, Hong Kong, dan Taiwan di berbagai sektor industri.</p>
           </div>
         </div>
         <div class="strength-item">
           <div class="strength-marker"></div>
           <div>
-            <h4>Tenaga Kerja Terlatih</h4>
-            <p>Setiap tenaga kerja telah melalui pelatihan dan pembekalan sebelum ditempatkan di perusahaan mitra.</p>
+            <h4 data-i18n="str5_title">Tenaga Kerja Terlatih</h4>
+            <p data-i18n="str5_desc">Setiap tenaga kerja telah melalui pelatihan dan pembekalan sebelum ditempatkan di perusahaan mitra.</p>
           </div>
         </div>
         <div class="strength-item">
           <div class="strength-marker"></div>
           <div>
-            <h4>Berorientasi Keselamatan</h4>
-            <p>Mengutamakan keselamatan dan perlindungan Pekerja Migran Indonesia, baik di Indonesia maupun di negara penempatan.</p>
+            <h4 data-i18n="str6_title">Berorientasi Keselamatan</h4>
+            <p data-i18n="str6_desc">Mengutamakan keselamatan dan perlindungan Pekerja Migran Indonesia, baik di Indonesia maupun di negara penempatan.</p>
           </div>
         </div>
       </div>
@@ -434,30 +487,30 @@
   <section class="process">
     <div class="container">
       <div style="text-align:center;">
-        <div class="section-label">Alur Kerja Sama</div>
-        <h2 class="section-title">Proses yang Transparan</h2>
+        <div class="section-label" data-i18n="proc_label">Alur Kerja Sama</div>
+        <h2 class="section-title" data-i18n="proc_title">Proses yang Transparan</h2>
         <div class="gold-line" style="margin: 1.5rem auto;"></div>
       </div>
       <div class="process-steps">
         <div class="step">
           <div class="step-num">1</div>
-          <h4>Konsultasi</h4>
-          <p>Diskusi kebutuhan tenaga kerja, spesifikasi, dan jumlah yang dibutuhkan.</p>
+          <h4 data-i18n="proc1_title">Konsultasi</h4>
+          <p data-i18n="proc1_desc">Diskusi kebutuhan tenaga kerja, spesifikasi, dan jumlah yang dibutuhkan.</p>
         </div>
         <div class="step">
           <div class="step-num">2</div>
-          <h4>Rekrutmen</h4>
-          <p>Pencarian, seleksi, wawancara, dan verifikasi dokumen kandidat.</p>
+          <h4 data-i18n="proc2_title">Rekrutmen</h4>
+          <p data-i18n="proc2_desc">Pencarian, seleksi, wawancara, dan verifikasi dokumen kandidat.</p>
         </div>
         <div class="step">
           <div class="step-num">3</div>
-          <h4>Pembekalan</h4>
-          <p>Medical check-up, psikotes, dan persiapan administrasi keberangkatan.</p>
+          <h4 data-i18n="proc3_title">Pembekalan</h4>
+          <p data-i18n="proc3_desc">Medical check-up, psikotes, dan persiapan administrasi keberangkatan.</p>
         </div>
         <div class="step">
           <div class="step-num">4</div>
-          <h4>Penempatan</h4>
-          <p>Mobilisasi dan penempatan tenaga kerja di perusahaan mitra tujuan.</p>
+          <h4 data-i18n="proc4_title">Penempatan</h4>
+          <p data-i18n="proc4_desc">Mobilisasi dan penempatan tenaga kerja di perusahaan mitra tujuan.</p>
         </div>
       </div>
     </div>
@@ -467,30 +520,30 @@
   <section class="reach" id="jangkauan">
     <div class="container">
       <div style="text-align:center;">
-        <div class="section-label">Jangkauan Internasional</div>
-        <h2 class="section-title">Negara Tujuan Penempatan</h2>
+        <div class="section-label" data-i18n="reach_label">Jangkauan Internasional</div>
+        <h2 class="section-title" data-i18n="reach_title">Negara Tujuan Penempatan</h2>
         <div class="gold-line" style="margin: 1.5rem auto;"></div>
       </div>
       <div class="reach-countries">
         <div class="reach-card">
           <div class="reach-flag"><img src="https://flagcdn.com/w80/my.png" alt="Bendera Malaysia"></div>
           <h4>Malaysia</h4>
-          <p>30+ perusahaan mitra di berbagai sektor</p>
+          <p data-i18n="reach_my">30+ perusahaan mitra di berbagai sektor</p>
         </div>
         <div class="reach-card">
           <div class="reach-flag"><img src="https://flagcdn.com/w80/bn.png" alt="Bendera Brunei"></div>
           <h4>Brunei Darussalam</h4>
-          <p>Agen penempatan tenaga kerja</p>
+          <p data-i18n="reach_bn">Agen penempatan tenaga kerja</p>
         </div>
         <div class="reach-card">
           <div class="reach-flag"><img src="https://flagcdn.com/w80/hk.png" alt="Bendera Hong Kong"></div>
           <h4>Hong Kong</h4>
-          <p>8+ agen employment agency</p>
+          <p data-i18n="reach_hk">8+ agen employment agency</p>
         </div>
         <div class="reach-card">
           <div class="reach-flag"><img src="https://flagcdn.com/w80/tw.png" alt="Bendera Taiwan"></div>
           <h4>Taiwan</h4>
-          <p>5+ manpower consulting partner</p>
+          <p data-i18n="reach_tw">5+ manpower consulting partner</p>
         </div>
       </div>
     </div>
@@ -499,13 +552,13 @@
   <!-- TIM MANAJEMEN -->
   <section class="team" id="tim">
     <div class="container">
-      <div class="section-label">Struktur Organisasi</div>
-      <h2 class="section-title">Tim Profesional Kami</h2>
+      <div class="section-label" data-i18n="team_label">Struktur Organisasi</div>
+      <h2 class="section-title" data-i18n="team_title">Tim Profesional Kami</h2>
       <div class="gold-line"></div>
 
       <!-- Pimpinan -->
       <div class="team-tier">
-        <div class="team-tier-label">Pimpinan</div>
+        <div class="team-tier-label" data-i18n="team_pimpinan">Pimpinan</div>
         <div class="team-grid team-grid-2">
           <div class="team-card team-card-lead">
             <img class="team-photo" src="https://i.ibb.co.com/3595ywvM/sugeng1.jpg" alt="Sugeng Pujiono">
@@ -522,12 +575,12 @@
 
       <!-- Manajemen -->
       <div class="team-tier">
-        <div class="team-tier-label">Manajemen</div>
+        <div class="team-tier-label" data-i18n="team_manajemen">Manajemen</div>
         <div class="team-grid team-grid-3">
           <div class="team-card">
             <img class="team-photo" src="https://i.ibb.co.com/k2mtzNgL/syukur1.jpg" alt="Ahmad Syukur">
             <h4>Ahmad Syukur</h4>
-            <p>Kepala Cabang &mdash; Cilacap, Jawa Tengah</p>
+            <p data-i18n="team_syukur">Kepala Cabang &mdash; Cilacap, Jawa Tengah</p>
           </div>
           <div class="team-card">
             <img class="team-photo" src="https://i.ibb.co.com/nNLvqqsB/muslimin2.jpg" alt="Muslimin Bin Muhammad Idris">
@@ -537,7 +590,7 @@
           <div class="team-card">
             <img class="team-photo" src="https://i.ibb.co.com/nvT2jB1/rahman1.jpg" alt="Abd Rahman">
             <h4>Abd Rahman</h4>
-            <p>Kepala Cabang &mdash; Karimun, Kepri</p>
+            <p data-i18n="team_rahman">Kepala Cabang &mdash; Karimun, Kepri</p>
           </div>
         </div>
       </div>
@@ -589,17 +642,17 @@
 
   <!-- CTA -->
   <section class="cta-section">
-    <h2>Siap Menemukan Tenaga Kerja yang Tepat?</h2>
-    <p>Hubungi kami untuk konsultasi kebutuhan tenaga kerja Anda.</p>
-    <a href="#kontak" class="cta-btn">Hubungi Kami</a>
+    <h2 data-i18n="cta_title">Siap Menemukan Tenaga Kerja yang Tepat?</h2>
+    <p data-i18n="cta_desc">Hubungi kami untuk konsultasi kebutuhan tenaga kerja Anda.</p>
+    <a href="#kontak" class="cta-btn" data-i18n="cta_btn">Hubungi Kami</a>
   </section>
 
   <!-- KONTAK -->
   <section class="contact" id="kontak">
     <div class="container">
       <div style="text-align:center;">
-        <div class="section-label">Hubungi Kami</div>
-        <h2 class="section-title">Kami Siap Melayani Anda</h2>
+        <div class="section-label" data-i18n="con_label">Hubungi Kami</div>
+        <h2 class="section-title" data-i18n="con_title">Kami Siap Melayani Anda</h2>
         <div class="gold-line" style="margin: 1.5rem auto;"></div>
       </div>
 
@@ -614,14 +667,14 @@
           <div class="contact-info-item">
             <div class="contact-icon">&#9742;</div>
             <div>
-              <h4>Telepon & Whatsapp</h4>
-              <p>0812-6891-8686 ( Ahmad Syukur )<br>0812-7016-478 ( Muslimin Bin Muhammad Idris )</p>
+              <h4 data-i18n="con_phone">Telepon &amp; Whatsapp</h4>
+              <p>0812-6891-8686</p>
             </div>
           </div>
           <div class="contact-info-item">
             <div class="contact-icon">&#9873;</div>
             <div>
-              <h4>Alamat Kantor</h4>
+              <h4 data-i18n="con_address">Alamat Kantor</h4>
               <p>Jln Komodo GG Bison RT 01 RW 01 No 86<br>Kec.Cilacap, Kel.Martasinga, Cilacap Utara<br> Kab. Cilacap, Jawa Tengah</p>
             </div>
           </div>
@@ -643,10 +696,204 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    <p>&copy; 2024 PT. Bumi Mas Antarnusa. Seluruh hak cipta dilindungi.</p>
+    <p data-i18n="footer">&copy; 2024 PT. Bumi Mas Antarnusa. Seluruh hak cipta dilindungi.</p>
   </footer>
 
   <script>
+    // ===== TRANSLATIONS =====
+    var T = {
+      id: {
+        nav_beranda: "Beranda", nav_tentang: "Tentang", nav_layanan: "Layanan",
+        nav_jangkauan: "Jangkauan", nav_tim: "Tim", nav_kontak: "Kontak",
+        hero_badge: "P3MI — Berpengalaman Lebih dari 26 Tahun",
+        hero_title: 'Menyediakan <em>Tenaga Kerja</em> Profesional untuk Pasar Dalam &amp; Luar Negeri',
+        hero_desc: "PT. Bumi Mas Antarnusa adalah perusahaan rekrutmen terkemuka yang menyalurkan tenaga kerja terampil ke berbagai sektor industri di Malaysia, Brunei, Hong Kong, dan Taiwan.",
+        hero_cta: "Hubungi Kami",
+        about_exp: "Tahun Pengalaman",
+        about_label: "Tentang Kami",
+        about_title: "Perusahaan Penempatan Pekerja Migran Indonesia (P3MI)",
+        about_desc1: "PT. Bumi Mas Antarnusa (BMA) adalah perusahaan yang bergerak di bidang penyediaan jasa tenaga kerja profesional untuk ditempatkan di pasar luar negeri dan dalam negeri. BMA telah memperoleh izin resmi dari Kementerian Ketenagakerjaan Republik Indonesia sebagai P3MI.",
+        about_desc2: "Sejak berdiri, kami telah mengirim banyak tenaga kerja ke beberapa negara di berbagai sektor pekerjaan. Kami memiliki banyak pengalaman dalam merekrut tenaga kerja untuk memenuhi kebutuhan luar negeri, dan tidak sulit bagi kami untuk merekrut tenaga kerja potensial lokal di Indonesia untuk ditempatkan pada sektor pekerjaan yang sesuai.",
+        stat_negara: "Negara Tujuan", stat_mitra: "Perusahaan Mitra", stat_sektor: "Sektor Industri",
+        svc_label: "Kegiatan Usaha", svc_title: "Proses Rekrutmen &amp; Seleksi Kami",
+        svc_desc: "BMA selalu siap memenuhi kebutuhan Anda dengan menyediakan tenaga profesional yang mumpuni. Kami melakukan proses rekrutmen dan seleksi melalui langkah-langkah berikut:",
+        svc1_title: "Identifikasi Kandidat", svc1_desc: "Pencarian dan identifikasi kandidat yang cocok sesuai dengan kebutuhan dan spesifikasi pekerjaan yang dibutuhkan perusahaan mitra.",
+        svc2_title: "Wawancara &amp; Seleksi", svc2_desc: "Melakukan wawancara dan tes kemampuan untuk menyeleksi kandidat terbaik sesuai kriteria yang ditentukan.",
+        svc3_title: "Verifikasi Dokumen", svc3_desc: "Pemeriksaan dan verifikasi kelengkapan dokumen calon tenaga kerja untuk memastikan legalitas dan keabsahan.",
+        svc4_title: "Medical &amp; Psikotes", svc4_desc: "Pengaturan pemeriksaan kesehatan dan tes psikologi calon pekerja sesuai standar yang diminta oleh perusahaan klien.",
+        svc5_title: "Penyerahan Data Kandidat", svc5_desc: "Menyerahkan data lengkap calon tenaga kerja yang telah lolos seleksi kepada perusahaan mitra untuk dipilih.",
+        svc6_title: "Mobilisasi &amp; Penempatan", svc6_desc: "Mempersiapkan keperluan untuk memobilisasi calon pekerja yang telah lulus seleksi dan siap untuk ditempatkan bekerja.",
+        sec_label: "Sektor Industri", sec_title: "Berbagai Bidang Penempatan Tenaga Kerja",
+        sec_desc: "Kami menyalurkan tenaga kerja profesional ke berbagai sektor industri di dalam dan luar negeri.",
+        sec_konstruksi: "Konstruksi", sec_pertanian: "Perladangan / Pertanian", sec_konveksi: "Konveksi",
+        sec_elektronik: "Elektronik", sec_restoran: "Restoran", sec_perhotelan: "Perhotelan",
+        sec_peternakan: "Peternakan", sec_manufaktur: "Manufaktur",
+        str_label: "Keunggulan Kami", str_title: "Mengapa Memilih BMA",
+        str_desc: "Layanan berkualitas terbaik, dengan orang yang tepat, pada waktu yang tepat, dan harga yang kompetitif.",
+        str1_title: "Legalitas Resmi P3MI", str1_desc: "Terdaftar dan berizin resmi dari Kementerian Ketenagakerjaan Republik Indonesia dengan NIB: 9120501892211.",
+        str2_title: "Pengalaman 26+ Tahun", str2_desc: "Lebih dari dua dekade pengalaman dalam merekrut dan menyalurkan tenaga kerja profesional ke berbagai negara.",
+        str3_title: "Seleksi Multi-Tahap", str3_desc: "Proses rekrutmen mencakup identifikasi, wawancara, verifikasi dokumen, medical check-up, dan psikotes.",
+        str4_title: "Jaringan Internasional", str4_desc: "Klien tersebar di Malaysia, Brunei Darussalam, Hong Kong, dan Taiwan di berbagai sektor industri.",
+        str5_title: "Tenaga Kerja Terlatih", str5_desc: "Setiap tenaga kerja telah melalui pelatihan dan pembekalan sebelum ditempatkan di perusahaan mitra.",
+        str6_title: "Berorientasi Keselamatan", str6_desc: "Mengutamakan keselamatan dan perlindungan Pekerja Migran Indonesia, baik di Indonesia maupun di negara penempatan.",
+        proc_label: "Alur Kerja Sama", proc_title: "Proses yang Transparan",
+        proc1_title: "Konsultasi", proc1_desc: "Diskusi kebutuhan tenaga kerja, spesifikasi, dan jumlah yang dibutuhkan.",
+        proc2_title: "Rekrutmen", proc2_desc: "Pencarian, seleksi, wawancara, dan verifikasi dokumen kandidat.",
+        proc3_title: "Pembekalan", proc3_desc: "Medical check-up, psikotes, dan persiapan administrasi keberangkatan.",
+        proc4_title: "Penempatan", proc4_desc: "Mobilisasi dan penempatan tenaga kerja di perusahaan mitra tujuan.",
+        reach_label: "Jangkauan Internasional", reach_title: "Negara Tujuan Penempatan",
+        reach_my: "30+ perusahaan mitra di berbagai sektor",
+        reach_bn: "Agen penempatan tenaga kerja",
+        reach_hk: "8+ agen employment agency",
+        reach_tw: "5+ manpower consulting partner",
+        team_label: "Struktur Organisasi", team_title: "Tim Profesional Kami",
+        team_pimpinan: "Pimpinan", team_manajemen: "Manajemen",
+        team_syukur: "Kepala Cabang &mdash; Cilacap, Jawa Tengah",
+        team_rahman: "Kepala Cabang &mdash; Karimun, Kepri",
+        cta_title: "Siap Menemukan Tenaga Kerja yang Tepat?",
+        cta_desc: "Hubungi kami untuk konsultasi kebutuhan tenaga kerja Anda.",
+        cta_btn: "Hubungi Kami",
+        con_label: "Hubungi Kami", con_title: "Kami Siap Melayani Anda",
+        con_phone: "Telepon &amp; Whatsapp", con_address: "Alamat Kantor",
+        footer: "&copy; 2024 PT. Bumi Mas Antarnusa. Seluruh hak cipta dilindungi."
+      },
+
+      en: {
+        nav_beranda: "Home", nav_tentang: "About", nav_layanan: "Services",
+        nav_jangkauan: "Reach", nav_tim: "Team", nav_kontak: "Contact",
+        hero_badge: "P3MI — Over 26 Years of Experience",
+        hero_title: 'Providing Professional <em>Workforce</em> for Domestic &amp; International Markets',
+        hero_desc: "PT. Bumi Mas Antarnusa is a leading recruitment company that deploys skilled workers to various industrial sectors in Malaysia, Brunei, Hong Kong, and Taiwan.",
+        hero_cta: "Contact Us",
+        about_exp: "Years of Experience",
+        about_label: "About Us",
+        about_title: "Indonesian Migrant Worker Placement Company (P3MI)",
+        about_desc1: "PT. Bumi Mas Antarnusa (BMA) is a company engaged in providing professional workforce services for placement in overseas and domestic markets. BMA has obtained an official license from the Ministry of Manpower of the Republic of Indonesia as a P3MI.",
+        about_desc2: "Since our establishment, we have sent numerous workers to several countries across various employment sectors. We have extensive experience in recruiting workers to meet overseas demands, and it is easy for us to recruit potential local workers in Indonesia for placement in suitable employment sectors.",
+        stat_negara: "Destination Countries", stat_mitra: "Partner Companies", stat_sektor: "Industry Sectors",
+        svc_label: "Business Activities", svc_title: "Our Recruitment &amp; Selection Process",
+        svc_desc: "BMA is always ready to meet your needs by providing competent professionals. We carry out the recruitment and selection process through the following steps:",
+        svc1_title: "Candidate Identification", svc1_desc: "Searching and identifying suitable candidates according to the needs and job specifications required by partner companies.",
+        svc2_title: "Interview &amp; Selection", svc2_desc: "Conducting interviews and skill tests to select the best candidates according to the specified criteria.",
+        svc3_title: "Document Verification", svc3_desc: "Checking and verifying the completeness of prospective workers' documents to ensure legality and validity.",
+        svc4_title: "Medical &amp; Psychological Tests", svc4_desc: "Arranging health examinations and psychological tests for prospective workers according to the standards requested by client companies.",
+        svc5_title: "Candidate Data Submission", svc5_desc: "Submitting complete data of prospective workers who have passed the selection to partner companies for their review.",
+        svc6_title: "Mobilization &amp; Placement", svc6_desc: "Preparing the requirements to mobilize prospective workers who have passed the selection and are ready for placement.",
+        sec_label: "Industry Sectors", sec_title: "Various Fields of Workforce Placement",
+        sec_desc: "We deploy professional workers to various industry sectors domestically and internationally.",
+        sec_konstruksi: "Construction", sec_pertanian: "Plantation / Agriculture", sec_konveksi: "Garment",
+        sec_elektronik: "Electronics", sec_restoran: "Restaurant", sec_perhotelan: "Hospitality",
+        sec_peternakan: "Livestock", sec_manufaktur: "Manufacturing",
+        str_label: "Our Strengths", str_title: "Why Choose BMA",
+        str_desc: "The highest quality service, with the right people, at the right time, and at a competitive price.",
+        str1_title: "Official P3MI License", str1_desc: "Registered and officially licensed by the Ministry of Manpower of the Republic of Indonesia with NIB: 9120501892211.",
+        str2_title: "26+ Years of Experience", str2_desc: "More than two decades of experience in recruiting and deploying professional workers to various countries.",
+        str3_title: "Multi-Stage Selection", str3_desc: "The recruitment process includes identification, interviews, document verification, medical check-ups, and psychological tests.",
+        str4_title: "International Network", str4_desc: "Clients spread across Malaysia, Brunei Darussalam, Hong Kong, and Taiwan in various industry sectors.",
+        str5_title: "Trained Workforce", str5_desc: "Every worker has undergone training and preparation before being placed at partner companies.",
+        str6_title: "Safety-Oriented", str6_desc: "Prioritizing the safety and protection of Indonesian Migrant Workers, both in Indonesia and in destination countries.",
+        proc_label: "Workflow", proc_title: "A Transparent Process",
+        proc1_title: "Consultation", proc1_desc: "Discussing workforce needs, specifications, and required quantities.",
+        proc2_title: "Recruitment", proc2_desc: "Searching, selecting, interviewing, and verifying candidate documents.",
+        proc3_title: "Preparation", proc3_desc: "Medical check-ups, psychological tests, and administrative preparation for departure.",
+        proc4_title: "Placement", proc4_desc: "Mobilization and placement of workers at destination partner companies.",
+        reach_label: "International Reach", reach_title: "Placement Destination Countries",
+        reach_my: "30+ partner companies across various sectors",
+        reach_bn: "Workforce placement agency",
+        reach_hk: "8+ employment agencies",
+        reach_tw: "5+ manpower consulting partners",
+        team_label: "Organizational Structure", team_title: "Our Professional Team",
+        team_pimpinan: "Leadership", team_manajemen: "Management",
+        team_syukur: "Branch Manager &mdash; Cilacap, Central Java",
+        team_rahman: "Branch Manager &mdash; Karimun, Riau Islands",
+        cta_title: "Ready to Find the Right Workforce?",
+        cta_desc: "Contact us for a consultation on your workforce needs.",
+        cta_btn: "Contact Us",
+        con_label: "Contact Us", con_title: "We Are Ready to Serve You",
+        con_phone: "Phone &amp; Whatsapp", con_address: "Office Address",
+        footer: "&copy; 2024 PT. Bumi Mas Antarnusa. All rights reserved."
+      },
+
+      ms: {
+        nav_beranda: "Laman Utama", nav_tentang: "Mengenai", nav_layanan: "Perkhidmatan",
+        nav_jangkauan: "Liputan", nav_tim: "Pasukan", nav_kontak: "Hubungi",
+        hero_badge: "P3MI — Berpengalaman Lebih 26 Tahun",
+        hero_title: 'Menyediakan <em>Tenaga Kerja</em> Profesional untuk Pasaran Dalam &amp; Luar Negara',
+        hero_desc: "PT. Bumi Mas Antarnusa ialah syarikat pengambilan pekerja terkemuka yang menyalurkan tenaga kerja mahir ke pelbagai sektor industri di Malaysia, Brunei, Hong Kong, dan Taiwan.",
+        hero_cta: "Hubungi Kami",
+        about_exp: "Tahun Pengalaman",
+        about_label: "Mengenai Kami",
+        about_title: "Syarikat Penempatan Pekerja Migran Indonesia (P3MI)",
+        about_desc1: "PT. Bumi Mas Antarnusa (BMA) ialah syarikat yang bergerak dalam bidang penyediaan perkhidmatan tenaga kerja profesional untuk ditempatkan di pasaran luar negara dan dalam negara. BMA telah memperoleh lesen rasmi daripada Kementerian Tenaga Kerja Republik Indonesia sebagai P3MI.",
+        about_desc2: "Sejak ditubuhkan, kami telah menghantar ramai tenaga kerja ke beberapa negara dalam pelbagai sektor pekerjaan. Kami mempunyai banyak pengalaman dalam merekrut tenaga kerja bagi memenuhi keperluan luar negara, dan mudah bagi kami untuk merekrut tenaga kerja tempatan yang berpotensi di Indonesia untuk ditempatkan dalam sektor pekerjaan yang sesuai.",
+        stat_negara: "Negara Destinasi", stat_mitra: "Syarikat Rakan Kongsi", stat_sektor: "Sektor Industri",
+        svc_label: "Aktiviti Perniagaan", svc_title: "Proses Pengambilan &amp; Pemilihan Kami",
+        svc_desc: "BMA sentiasa bersedia memenuhi keperluan anda dengan menyediakan tenaga profesional yang berkemampuan. Kami menjalankan proses pengambilan dan pemilihan melalui langkah-langkah berikut:",
+        svc1_title: "Pengenalpastian Calon", svc1_desc: "Pencarian dan pengenalpastian calon yang sesuai mengikut keperluan dan spesifikasi pekerjaan yang diperlukan oleh syarikat rakan kongsi.",
+        svc2_title: "Temu Duga &amp; Pemilihan", svc2_desc: "Menjalankan temu duga dan ujian kemahiran untuk memilih calon terbaik mengikut kriteria yang ditetapkan.",
+        svc3_title: "Pengesahan Dokumen", svc3_desc: "Pemeriksaan dan pengesahan kelengkapan dokumen calon pekerja bagi memastikan kesahihan dan keabsahan.",
+        svc4_title: "Ujian Perubatan &amp; Psikologi", svc4_desc: "Pengaturan pemeriksaan kesihatan dan ujian psikologi calon pekerja mengikut piawaian yang diminta oleh syarikat pelanggan.",
+        svc5_title: "Penyerahan Data Calon", svc5_desc: "Menyerahkan data lengkap calon pekerja yang telah lulus pemilihan kepada syarikat rakan kongsi untuk dipilih.",
+        svc6_title: "Mobilisasi &amp; Penempatan", svc6_desc: "Menyediakan keperluan untuk memobilisasi calon pekerja yang telah lulus pemilihan dan bersedia untuk ditempatkan bekerja.",
+        sec_label: "Sektor Industri", sec_title: "Pelbagai Bidang Penempatan Tenaga Kerja",
+        sec_desc: "Kami menyalurkan tenaga kerja profesional ke pelbagai sektor industri di dalam dan luar negara.",
+        sec_konstruksi: "Pembinaan", sec_pertanian: "Perladangan / Pertanian", sec_konveksi: "Pakaian",
+        sec_elektronik: "Elektronik", sec_restoran: "Restoran", sec_perhotelan: "Hospitaliti",
+        sec_peternakan: "Penternakan", sec_manufaktur: "Pembuatan",
+        str_label: "Kelebihan Kami", str_title: "Mengapa Pilih BMA",
+        str_desc: "Perkhidmatan berkualiti tinggi, dengan orang yang tepat, pada masa yang tepat, dan harga yang kompetitif.",
+        str1_title: "Lesen Rasmi P3MI", str1_desc: "Berdaftar dan berlesen rasmi daripada Kementerian Tenaga Kerja Republik Indonesia dengan NIB: 9120501892211.",
+        str2_title: "Pengalaman 26+ Tahun", str2_desc: "Lebih dua dekad pengalaman dalam merekrut dan menyalurkan tenaga kerja profesional ke pelbagai negara.",
+        str3_title: "Pemilihan Pelbagai Peringkat", str3_desc: "Proses pengambilan merangkumi pengenalpastian, temu duga, pengesahan dokumen, pemeriksaan perubatan, dan ujian psikologi.",
+        str4_title: "Rangkaian Antarabangsa", str4_desc: "Pelanggan tersebar di Malaysia, Brunei Darussalam, Hong Kong, dan Taiwan dalam pelbagai sektor industri.",
+        str5_title: "Tenaga Kerja Terlatih", str5_desc: "Setiap pekerja telah menjalani latihan dan persediaan sebelum ditempatkan di syarikat rakan kongsi.",
+        str6_title: "Berorientasikan Keselamatan", str6_desc: "Mengutamakan keselamatan dan perlindungan Pekerja Migran Indonesia, sama ada di Indonesia mahupun di negara penempatan.",
+        proc_label: "Aliran Kerja", proc_title: "Proses yang Telus",
+        proc1_title: "Perundingan", proc1_desc: "Perbincangan keperluan tenaga kerja, spesifikasi, dan bilangan yang diperlukan.",
+        proc2_title: "Pengambilan", proc2_desc: "Pencarian, pemilihan, temu duga, dan pengesahan dokumen calon.",
+        proc3_title: "Persediaan", proc3_desc: "Pemeriksaan perubatan, ujian psikologi, dan persediaan pentadbiran berlepas.",
+        proc4_title: "Penempatan", proc4_desc: "Mobilisasi dan penempatan tenaga kerja di syarikat rakan kongsi destinasi.",
+        reach_label: "Liputan Antarabangsa", reach_title: "Negara Destinasi Penempatan",
+        reach_my: "30+ syarikat rakan kongsi dalam pelbagai sektor",
+        reach_bn: "Agensi penempatan tenaga kerja",
+        reach_hk: "8+ agensi pekerjaan",
+        reach_tw: "5+ rakan kongsi perundingan tenaga kerja",
+        team_label: "Struktur Organisasi", team_title: "Pasukan Profesional Kami",
+        team_pimpinan: "Kepimpinan", team_manajemen: "Pengurusan",
+        team_syukur: "Pengurus Cawangan &mdash; Cilacap, Jawa Tengah",
+        team_rahman: "Pengurus Cawangan &mdash; Karimun, Kepulauan Riau",
+        cta_title: "Bersedia Mencari Tenaga Kerja yang Tepat?",
+        cta_desc: "Hubungi kami untuk perundingan keperluan tenaga kerja anda.",
+        cta_btn: "Hubungi Kami",
+        con_label: "Hubungi Kami", con_title: "Kami Bersedia Melayani Anda",
+        con_phone: "Telefon &amp; Whatsapp", con_address: "Alamat Pejabat",
+        footer: "&copy; 2024 PT. Bumi Mas Antarnusa. Hak cipta terpelihara."
+      }
+    };
+
+    var langFlags = { id: "https://flagcdn.com/w40/id.png", en: "https://flagcdn.com/w40/gb.png", ms: "https://flagcdn.com/w40/my.png" };
+    var langLabels = { id: "ID", en: "EN", ms: "MS" };
+
+    function setLang(lang) {
+      var dict = T[lang]; if (!dict) return;
+      document.documentElement.lang = lang === "ms" ? "ms" : lang === "en" ? "en" : "id";
+      document.querySelectorAll('[data-i18n]').forEach(function(el) {
+        var key = el.getAttribute('data-i18n');
+        if (dict[key] !== undefined) {
+          if (el.hasAttribute('data-i18n-html')) { el.innerHTML = dict[key]; }
+          else { el.innerHTML = dict[key]; }
+        }
+      });
+      document.getElementById('langFlagImg').src = langFlags[lang];
+      document.getElementById('langLabel').textContent = langLabels[lang];
+      document.querySelectorAll('.lang-option').forEach(function(opt) {
+        opt.classList.toggle('active', opt.getAttribute('data-lang') === lang);
+      });
+      document.getElementById('langSwitcher').classList.remove('open');
+      try { localStorage.setItem('bma_lang', lang); } catch(e) {}
+    }
+
+    // Nav toggle
     document.getElementById('navToggle').addEventListener('click', function() {
       document.getElementById('navLinks').classList.toggle('open');
     });
@@ -655,6 +902,26 @@
         document.getElementById('navLinks').classList.remove('open');
       });
     });
+
+    // Language switcher toggle
+    document.getElementById('langBtn').addEventListener('click', function(e) {
+      e.stopPropagation();
+      document.getElementById('langSwitcher').classList.toggle('open');
+    });
+    document.querySelectorAll('.lang-option').forEach(function(opt) {
+      opt.addEventListener('click', function() {
+        setLang(this.getAttribute('data-lang'));
+      });
+    });
+    document.addEventListener('click', function() {
+      document.getElementById('langSwitcher').classList.remove('open');
+    });
+
+    // Load saved language
+    try {
+      var saved = localStorage.getItem('bma_lang');
+      if (saved && T[saved]) setLang(saved);
+    } catch(e) {}
   </script>
 
 </body>
